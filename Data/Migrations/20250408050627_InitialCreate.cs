@@ -14,76 +14,65 @@ namespace Data.Migrations
                 name: "character",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    user_id = table.Column<int>(type: "int", nullable: false),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_character", x => x.Id);
+                    table.PrimaryKey("pk_character", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "user",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    username = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user", x => x.Id);
+                    table.PrimaryKey("pk_user", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "connection",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CharacterStartId = table.Column<int>(type: "int", nullable: false),
-                    CharacterEndId = table.Column<int>(type: "int", nullable: false),
-                    ConnectionType = table.Column<int>(type: "int", nullable: false),
-                    CharacterId = table.Column<int>(type: "int", nullable: true)
+                    character_start_id = table.Column<int>(type: "int", nullable: false),
+                    character_end_id = table.Column<int>(type: "int", nullable: false),
+                    connection_type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_connection", x => x.Id);
+                    table.PrimaryKey("pk_connection", x => x.id);
                     table.ForeignKey(
-                        name: "FK_connection_character_CharacterEndId",
-                        column: x => x.CharacterEndId,
+                        name: "fk_connection_character_end_id_character",
+                        column: x => x.character_end_id,
                         principalTable: "character",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_connection_character_CharacterId",
-                        column: x => x.CharacterId,
+                        name: "fk_connection_character_start_id_character",
+                        column: x => x.character_start_id,
                         principalTable: "character",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_connection_character_CharacterStartId",
-                        column: x => x.CharacterStartId,
-                        principalTable: "character",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_connection_CharacterEndId",
+                name: "ix_connection_character_end_id",
                 table: "connection",
-                column: "CharacterEndId");
+                column: "character_end_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_connection_CharacterId",
+                name: "ix_connection_character_start_id",
                 table: "connection",
-                column: "CharacterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_connection_CharacterStartId",
-                table: "connection",
-                column: "CharacterStartId");
+                column: "character_start_id");
         }
 
         /// <inheritdoc />

@@ -10,13 +10,13 @@ public class ConnectionConfiguration : IEntityTypeConfiguration<Connection>
     {
         builder
             .HasOne(e => e.CharacterStart)
-            .WithMany()
+            .WithMany(c => c.StartConnections)
             .HasForeignKey(e => e.CharacterStartId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder
             .HasOne(e => e.CharacterEnd)
-            .WithMany()
+            .WithMany(c => c.EndConnections)
             .HasForeignKey(e => e.CharacterEndId)
             .OnDelete(DeleteBehavior.Cascade);
     }

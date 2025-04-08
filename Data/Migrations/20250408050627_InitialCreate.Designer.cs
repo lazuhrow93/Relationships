@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(RelationshipDbContext))]
-    [Migration("20250406235221_InitialCreate")]
+    [Migration("20250408050627_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -28,17 +28,21 @@ namespace Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_character");
 
                     b.ToTable("character");
                 });
@@ -47,29 +51,31 @@ namespace Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CharacterEndId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CharacterId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("character_end_id");
 
                     b.Property<int>("CharacterStartId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("character_start_id");
 
                     b.Property<int>("ConnectionType")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("connection_type");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_connection");
 
-                    b.HasIndex("CharacterEndId");
+                    b.HasIndex("CharacterEndId")
+                        .HasDatabaseName("ix_connection_character_end_id");
 
-                    b.HasIndex("CharacterId");
-
-                    b.HasIndex("CharacterStartId");
+                    b.HasIndex("CharacterStartId")
+                        .HasDatabaseName("ix_connection_character_start_id");
 
                     b.ToTable("connection");
                 });
@@ -78,14 +84,17 @@ namespace Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("username");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_user");
 
                     b.ToTable("user");
                 });
@@ -93,20 +102,18 @@ namespace Data.Migrations
             modelBuilder.Entity("Entities.Connection", b =>
                 {
                     b.HasOne("Entities.Character", "CharacterEnd")
-                        .WithMany()
+                        .WithMany("EndConnections")
                         .HasForeignKey("CharacterEndId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Character", null)
-                        .WithMany("Connections")
-                        .HasForeignKey("CharacterId");
+                        .IsRequired()
+                        .HasConstraintName("fk_connection_character_end_id_character");
 
                     b.HasOne("Entities.Character", "CharacterStart")
-                        .WithMany()
+                        .WithMany("StartConnections")
                         .HasForeignKey("CharacterStartId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_connection_character_start_id_character");
 
                     b.Navigation("CharacterEnd");
 
@@ -115,7 +122,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.Character", b =>
                 {
-                    b.Navigation("Connections");
+                    b.Navigation("EndConnections");
+
+                    b.Navigation("StartConnections");
                 });
 #pragma warning restore 612, 618
         }
