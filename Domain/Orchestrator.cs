@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Data;
+﻿using Data;
 using Data.Queries;
 using Domain.Models.Entities;
 using Entities;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Domain;
 
 public interface IOrchestrator
-{
+{  
     Task<AppServiceResult<TEntity>> GetAll<TEntity>(int id, CancellationToken cancellationToken) where TEntity : Entity;
     Task<AppServiceResult<Character>> CreateCharacter(CharacterModel character, CancellationToken cancellationToken);
 }

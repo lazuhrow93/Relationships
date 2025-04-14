@@ -6,14 +6,22 @@ namespace Data;
 
 public static class Setup
 {
-    public static IServiceCollection AddDatabase(this IServiceCollection serviceCollection, IConfiguration configuration)
+    public static IServiceCollection AddDataLayer(this IServiceCollection serviceCollection, DataLayerSettings? dbSettings)
     {
-        var assembly = typeof(Setup).Assembly;
-
-        var connectionString = configuration.GetConnectionString("DefaultConnection")
-            ?? throw new InvalidOperationException("Connection string"
-            + "'DefaultConnection' not found.");
-
-        return serviceCollection.AddDbContext<RelationshipDbContext>(opt => opt.UseSqlServer(connectionString));
+        if (dbSettings == null)
+        {
+            throw new ArgumentNullException(nameof(dbSettings), "Database settings cannot be null");
+        }
+        return serviceCollection.AddDatabase(dbSettings);
     }
+
+    private static IServiceCollection AddDatabase(this IServiceCollection serviceCollection, DataLayerSettings dbSettings)
+    {
+        return serviceCollection.AddDbContext<RelationshipDbContext>(opt => opt.UseSqlServer(dbSettings.ConnectionString));
+    }
+}
+
+public class DataLayerSettings
+{
+    public string? ConnectionString { get; set; }
 }
