@@ -9,15 +9,15 @@ public class ConnectionConfiguration : IEntityTypeConfiguration<Connection>
     public void Configure(EntityTypeBuilder<Connection> builder)
     {
         builder
-            .HasOne(e => e.CharacterStart)
-            .WithMany(c => c.StartConnections)
-            .HasForeignKey(e => e.CharacterStartId)
+            .HasOne(e => e.CharacterOne)
+            .WithMany(c => c.CharacterConnectionsOne)
+            .HasForeignKey(e => e.CharacterOneId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder
-            .HasOne(e => e.CharacterEnd)
-            .WithMany(c => c.EndConnections)
-            .HasForeignKey(e => e.CharacterEndId)
+            .HasOne(e => e.CharacterTwo)
+            .WithMany(c => c.CharacterConnectionsTwo)
+            .HasForeignKey(e => e.CharacterTwoId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
