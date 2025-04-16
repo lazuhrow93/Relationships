@@ -4,6 +4,8 @@ using Domain;
 using Entities;
 using NSubstitute;
 using TestUtility.Faker.Model;
+using FluentAssertions;
+
 
 namespace UnitTests;
 
@@ -82,5 +84,50 @@ public class CharacterServiceTests
         await _crudOperator
             .DidNotReceive()
             .SaveChanges(CancellationToken.None);
+    }
+
+    [Fact]
+    public async Task Should_ReturnCharacter()
+    {
+        //arrange
+        var model = new CharacterModelFaker().Generate();
+        _myEntity
+            .IsAdded
+            .Returns(true);
+        _crudOperator
+            .AddAsync(Arg.Any<Character>(), CancellationToken.None)
+            .Returns(_myEntity);
+
+        //act
+        var result = await _sut.CreateCharacter(model, CancellationToken.None);
+
+        //assert
+        result.Should()
+            .NotBeNull();
+    }
+
+    [Fact]
+    public async Task Should_MatchProperties()
+    {
+        //arrange
+        var model = new CharacterModelFaker().Generate();
+        _myEntity
+            .IsAdded
+            .Returns(true);
+        _crudOperator
+            .AddAsync(Arg.Any<Character>(), CancellationToken.None)
+            .Returns(_myEntity);
+
+        //act
+        var result = await _sut.CreateCharacter(model, CancellationToken.None);
+
+        //assert
+        result.Should()
+            .BeEquivalentTo(new Character()
+            {
+                Id = result.Id,
+                Name = model.Name,
+                UserId = model.UserId
+            });
     }
 }
