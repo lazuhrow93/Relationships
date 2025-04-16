@@ -5,17 +5,17 @@ using Entities.Enums;
 
 namespace Domain;
 
-public interface IRelationshipService
+public interface IConnectionService
 {
     Task<Connection?> CreateConnection(int characterOneId, int characterTwoId, ConnectionType connectionType, CancellationToken cancellationToken);
 }
 
-public class RelationshipService : IRelationshipService
+public class ConnectionService : IConnectionService
 {
     private readonly ICrudOperator<Connection> _operations;
     private readonly IEntityQueries<Character> _characters;
 
-    public RelationshipService(ICrudOperator<Connection> operations,
+    public ConnectionService(ICrudOperator<Connection> operations,
         IEntityQueries<Character> characters)
     {
         _operations = operations;
@@ -24,7 +24,7 @@ public class RelationshipService : IRelationshipService
 
     public async Task<Connection?> CreateConnection(int characterOneId, int characterTwoId, ConnectionType connectionType, CancellationToken cancellationToken)
     {
-        var characters = await _characters.FindMany(new HashSet<int>([characterOneId, characterTwoId]));
+        var characters = await _characters.FindMany(new HashSet<int>([characterOneId, characterTwoId]), cancellationToken);
 
         if(characters.Length != 2)
         {

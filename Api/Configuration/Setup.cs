@@ -1,6 +1,4 @@
-﻿using Azure.Identity;
-using Data;
-using Microsoft.Extensions.Options;
+﻿using Data;
 
 namespace Api.Configuration;
 

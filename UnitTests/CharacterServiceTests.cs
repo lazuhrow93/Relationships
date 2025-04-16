@@ -123,9 +123,11 @@ public class CharacterServiceTests
 
         //assert
         result.Should()
+            .NotBeNull()
+            .And
             .BeEquivalentTo(new Character()
             {
-                Id = result.Id,
+                Id = result!.Id,
                 Name = model.Name,
                 UserId = model.UserId
             });
