@@ -1,10 +1,17 @@
 ﻿
+using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Data;
 
-public class MyEntity<T> where T : class
+public interface IMyEntity<T> where T : Entity
+{
+    bool IsAdded { get; }
+}
+
+public class MyEntity<T> : IMyEntity<T>
+    where T : Entity
 {
     private readonly EntityEntry<T> _dbEntry;
 
