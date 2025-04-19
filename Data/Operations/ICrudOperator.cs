@@ -1,7 +1,7 @@
 ﻿using Data.Queries;
 using Entities;
 
-namespace Data.Repository;
+namespace Data.Operations;
 
 public interface ICrudOperator<T> 
     where T : Entity

@@ -1,5 +1,5 @@
-﻿using Data.Queries;
-using Data.Repository;
+﻿using Data.Operations;
+using Data.Queries;
 using Entities;
 using Entities.Enums;
 
@@ -13,10 +13,10 @@ public interface IConnectionService
 public class ConnectionService : IConnectionService
 {
     private readonly ICrudOperator<Connection> _operations;
-    private readonly IEntityQueries<Character> _characters;
+    private readonly ICharacterQueries _characters;
 
     public ConnectionService(ICrudOperator<Connection> operations,
-        IEntityQueries<Character> characters)
+        ICharacterQueries characters)
     {
         _operations = operations;
         _characters = characters;

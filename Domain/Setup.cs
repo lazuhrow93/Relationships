@@ -4,7 +4,7 @@ namespace Domain;
 
 public static class Setup
 {
-    public static IServiceCollection SetupDomain(this IServiceCollection services)
+    public static IServiceCollection AddDomainLayer(this IServiceCollection services)
     {
         return services
             .AddScoped<ICharacterService, CharacterService>()

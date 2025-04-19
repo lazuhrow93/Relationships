@@ -1,7 +1,8 @@
-﻿using Data.Queries;
-using Data.Repository;
+﻿using Data.Operations;
+using Data.Queries;
 using Domain.Models.Entities;
 using Entities;
+using Microsoft.Identity.Client.Extensions.Msal;
 
 namespace Domain;
 

@@ -1,4 +1,5 @@
 ﻿using Data;
+using Domain;
 
 namespace Api.Configuration;
 
@@ -8,10 +9,13 @@ public static class Setup
     {
         var dbConnectionString = builder.Configuration["AppConfig:ConnectionString"] ?? throw new Exception("No connection string");
 
-        builder.Services.AddDataLayer(new DataLayerSettings()
-        {
-            ConnectionString = dbConnectionString
-        });
+        builder.Services
+            .AddDataLayer(new DataLayerSettings()
+            {
+                ConnectionString = dbConnectionString
+            })
+            .AddDomainLayer();
+
         return services;
     }
 
