@@ -6,5 +6,6 @@ public class ConnectCharactersDto
 {
     public int CharacterFrom { get; set; }
     public int CharacterTo { get; set; }
+    public string? Note { get; set; }
     public ConnectionType ConnectionType { get; set; }
 }

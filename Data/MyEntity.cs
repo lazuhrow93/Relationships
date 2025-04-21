@@ -8,6 +8,7 @@ namespace Data;
 public interface IMyEntity<T> where T : Entity
 {
     bool IsAdded { get; }
+    T Entity { get; set; }
 }
 
 public class MyEntity<T> : IMyEntity<T>
@@ -21,4 +22,5 @@ public class MyEntity<T> : IMyEntity<T>
     }
 
     public bool IsAdded => _dbEntry.State == EntityState.Added;
+    public T Entity => _dbEntry.Entity;
 }

@@ -19,5 +19,9 @@ public class ConnectionConfiguration : IEntityTypeConfiguration<Connection>
             .WithMany(c => c.TargetConnections)
             .HasForeignKey(e => e.TargetCharacterId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasIndex(c => new { c.SourceCharacterId, c.TargetCharacterId })
+            .IsUnique();
     }
 }

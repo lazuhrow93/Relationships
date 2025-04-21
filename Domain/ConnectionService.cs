@@ -7,22 +7,25 @@ namespace Domain;
 
 public interface IConnectionService
 {
-    Task<Connection?> CreateConnection(int characterOneId, int characterTwoId, ConnectionType connectionType, CancellationToken cancellationToken);
+    Task<Connection?> CreateConnection(int characterOneId, int characterTwoId, ConnectionType connectionType, string? Note, CancellationToken cancellationToken);
 }
 
 public class ConnectionService : IConnectionService
 {
-    private readonly ICrudOperator<Connection> _operations;
+    private readonly ICrudOperator<Connection> _connectionOperations;
+    private readonly ICrudOperator<ConnectionNote> _noteOperations;
     private readonly ICharacterQueries _characters;
 
-    public ConnectionService(ICrudOperator<Connection> operations,
+    public ConnectionService(ICrudOperator<Connection> connectionOperations,
+        ICrudOperator<ConnectionNote> noteOperations,
         ICharacterQueries characters)
     {
-        _operations = operations;
+        _connectionOperations = connectionOperations;
+        _noteOperations = noteOperations;
         _characters = characters;
     }
 
-    public async Task<Connection?> CreateConnection(int characterOneId, int characterTwoId, ConnectionType connectionType, CancellationToken cancellationToken)
+    public async Task<Connection?> CreateConnection(int characterOneId, int characterTwoId, ConnectionType connectionType, string? note, CancellationToken cancellationToken)
     {
         var characters = await _characters.FindMany(new HashSet<int>([characterOneId, characterTwoId]), cancellationToken);
 
@@ -38,10 +41,22 @@ public class ConnectionService : IConnectionService
             ConnectionType = connectionType
         };
 
-        var result = await _operations.AddAsync(newConnection, cancellationToken);
-        if (result.IsAdded)
+        var result = await _connectionOperations.AddAsync(newConnection, cancellationToken);
+        var shouldSave = result.IsAdded;
+
+        if (note is not null)
         {
-            await _operations.SaveChanges(cancellationToken);
+            var noteResult = await _noteOperations.AddAsync(new ConnectionNote()
+            {
+                Content = note,
+                ConnectionId = result.Entity.Id
+            }, cancellationToken);
+            shouldSave = shouldSave || noteResult.IsAdded;
+        }
+
+        if (shouldSave)
+        {
+            await _noteOperations.SaveChanges(cancellationToken);
         }
         return newConnection;
     }

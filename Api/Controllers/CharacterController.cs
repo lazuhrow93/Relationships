@@ -60,6 +60,7 @@ public class CharacterController : Controller
             dto.CharacterFrom,
             dto.CharacterTo,
             dto.ConnectionType,
+            dto.Note,
             cancellationToken);
 
         if (result == null)

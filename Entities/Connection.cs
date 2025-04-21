@@ -15,5 +15,7 @@ public class Connection : Entity
     [AllowNull]
     public Character TargetCharacter { get; set; }
 
+    public List<ConnectionNote> Notes { get; set; } = [];
+
     public ConnectionType ConnectionType { get; set; }
 }
