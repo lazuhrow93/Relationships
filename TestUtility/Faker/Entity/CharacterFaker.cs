@@ -8,7 +8,7 @@ public class CharacterFaker : EntityFaker<Character, CharacterFaker>
     {
         RuleFor(c => c.UserId, f => f.Random.Int());
         RuleFor(c => c.Name, f => f.Person.FullName);
-        RuleFor(c => c.CharacterConnectionsOne, []);
-        RuleFor(c => c.CharacterConnectionsTwo, []);
+        RuleFor(c => c.SourceConnections, []);
+        RuleFor(c => c.TargetConnections, []);
     }
 }

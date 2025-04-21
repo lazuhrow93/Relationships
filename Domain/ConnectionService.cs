@@ -33,8 +33,8 @@ public class ConnectionService : IConnectionService
 
         var newConnection = new Connection()
         {
-            CharacterOneId = characterOneId,
-            CharacterTwoId = characterTwoId,
+            SourceCharacterId = characterOneId,
+            TargetCharacterId = characterTwoId,
             ConnectionType = connectionType
         };
 

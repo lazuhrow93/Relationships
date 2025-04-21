@@ -3,5 +3,5 @@
 public class GetConnectionsForCharacterResponse
 {
     public int CharacterId { get; set; }
-    public int[] ConnectionIds { get; set; } = [];
+    public ConnectionDescriptionDto[] Connections { get; set; } = [];
 }

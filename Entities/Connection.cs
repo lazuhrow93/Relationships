@@ -5,15 +5,15 @@ namespace Entities;
 
 public class Connection : Entity
 {
-    public int CharacterOneId { get; set; }
+    public int SourceCharacterId { get; set; }
 
-    public int CharacterTwoId { get; set; }
-
-    [AllowNull]
-    public Character CharacterOne { get; set; }
+    public int TargetCharacterId { get; set; }
 
     [AllowNull]
-    public Character CharacterTwo { get; set; }
+    public Character SourceCharacter { get; set; }
+
+    [AllowNull]
+    public Character TargetCharacter { get; set; }
 
     public ConnectionType ConnectionType { get; set; }
 }

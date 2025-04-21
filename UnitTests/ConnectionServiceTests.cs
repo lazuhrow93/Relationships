@@ -120,11 +120,11 @@ public class ConnectionServiceTests
             .BeEquivalentTo(new Connection()
             {
                 Id = result!.Id,
-                CharacterOneId = 1,
-                CharacterTwoId = 2,
+                SourceCharacterId = 1,
+                TargetCharacterId = 2,
                 ConnectionType = ConnectionType.Friend,
-                CharacterOne = null,
-                CharacterTwo = null,
+                SourceCharacter = null,
+                TargetCharacter = null,
             });
     }
 }

@@ -1,10 +1,8 @@
 ﻿using Api.Controllers.Dto;
-using Api.Dto;
 using Data.Queries;
 using Domain;
 using Domain.Models.Entities;
 using Entities;
-using Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -31,12 +29,12 @@ public class CharacterController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCharacter([FromBody] CharacterDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateCharacter([FromBody] ConnectionDescriptionDto dto, CancellationToken cancellationToken)
     {
         var model = new CharacterModel()
         {
             UserId = dto.UserId,
-            Name = dto.Name
+            Name = dto.CharacterName
         };
 
         var result = await _characterService.CreateCharacter(model, cancellationToken);
@@ -72,8 +70,8 @@ public class CharacterController : Controller
         return new ConnectCharactersResponse()
         {
             ConnectionId = result.Id,
-            CharacterOneId = result.CharacterOneId,
-            CharacterTwoId = result.CharacterTwoId,
+            CharacterOneId = result.SourceCharacterId,
+            CharacterTwoId = result.TargetCharacterId,
             ConnectionTypeId = (int)result.ConnectionType
         };
     }
@@ -87,11 +85,20 @@ public class CharacterController : Controller
         {
             throw new Exception("Character not found");
         }
-        var result = await _connections.GetConnectionsForCharacter(characterId, cancellationToken);
+        
+        var result = await _connections.GetConnectionsForCharacter(characterId, CharacterQueryOptions.IncludeCharacters, cancellationToken);
         return new GetConnectionsForCharacterResponse()
         {
             CharacterId = characterId,
-            ConnectionIds = result.Select(c => c.CharacterTwoId).ToArray()
+            Connections = result.Select(r =>
+            {
+                return new ConnectionDescriptionDto()
+                {
+                    Id = r.TargetCharacter.Id,
+                    CharacterName = r.TargetCharacter.Name,
+                    RoleToCharacter = r.ConnectionType.ToString()
+                };
+            }).ToArray()
         };
     }
 }

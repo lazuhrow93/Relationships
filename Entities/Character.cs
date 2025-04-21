@@ -7,7 +7,7 @@ public class Character : Entity
     public int UserId { get; set; }
     public string? Name { get; set; }
 
-    public List<Connection> CharacterConnectionsOne { get; set; } = [];
+    public List<Connection> SourceConnections { get; set; } = [];
 
-    public List<Connection> CharacterConnectionsTwo { get; set; } = [];
+    public List<Connection> TargetConnections { get; set; } = [];
 }
