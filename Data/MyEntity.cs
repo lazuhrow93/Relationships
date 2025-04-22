@@ -8,7 +8,7 @@ namespace Data;
 public interface IMyEntity<T> where T : Entity
 {
     bool IsAdded { get; }
-    T Entity { get; set; }
+    T Entity { get; }
 }
 
 public class MyEntity<T> : IMyEntity<T>
