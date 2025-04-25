@@ -16,12 +16,12 @@ public class ConnectionService : IConnectionService
     private readonly ICrudOperator<ConnectionNote> _noteOperations;
     private readonly ICharacterQueries _characters;
 
-    public ConnectionService(ICrudOperator<Connection> connectionOperations,
-        ICrudOperator<ConnectionNote> noteOperations,
+    public ConnectionService(ICrudOperator<Connection> connectionOps,
+        ICrudOperator<ConnectionNote> connectionNoteOps,
         ICharacterQueries characters)
     {
-        _connectionOperations = connectionOperations;
-        _noteOperations = noteOperations;
+        _connectionOperations = connectionOps;
+        _noteOperations = connectionNoteOps;
         _characters = characters;
     }
 

@@ -15,6 +15,7 @@ public partial class Main : Window
         InitializeComponent();
         _mainViewModel = mainViewModel;
 
+        DataContext = _mainViewModel;
         Loaded += async (_, __) => { await _mainViewModel.LoadUserCharacters(1); };
     }
 

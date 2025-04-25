@@ -1,10 +1,10 @@
 using Data;
-using Data.Repository;
+using Data.Operations;
 using Domain;
 using Entities;
+using FluentAssertions;
 using NSubstitute;
 using TestUtility.Faker.Model;
-using FluentAssertions;
 
 
 namespace UnitTests;

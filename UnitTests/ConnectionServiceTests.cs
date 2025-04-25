@@ -1,6 +1,6 @@
 ﻿using Data;
+using Data.Operations;
 using Data.Queries;
-using Data.Repository;
 using Domain;
 using Entities;
 using Entities.Enums;
@@ -14,16 +14,18 @@ public class ConnectionServiceTests
 {
     private readonly ConnectionService _sut;
 
-    private readonly ICrudOperator<Connection> _crudOperator;
-    private readonly IEntityQueries<Character> _characters;
+    private readonly ICrudOperator<Connection> _connectionOps;
+    private readonly ICrudOperator<ConnectionNote> _connectionNoteOps;
+    private readonly ICharacterQueries _characters;
     private readonly IMyEntity<Connection> _myEntity;
 
     public ConnectionServiceTests()
     {
-        _crudOperator = Substitute.For<ICrudOperator<Connection>>();
-        _characters = Substitute.For<IEntityQueries<Character>>();
+        _connectionOps = Substitute.For<ICrudOperator<Connection>>();
+        _connectionNoteOps = Substitute.For<ICrudOperator<ConnectionNote>>();
+        _characters = Substitute.For<ICharacterQueries>();
         _myEntity = Substitute.For<IMyEntity<Connection>>();
-        _sut = new(_crudOperator, _characters);
+        _sut = new(_connectionOps, _connectionNoteOps, _characters);
     }
 
     [Fact]
@@ -35,7 +37,7 @@ public class ConnectionServiceTests
             .Returns([]);
 
         // Act
-        var result = _sut.CreateConnection(1, 2, ConnectionType.Friend, CancellationToken.None);
+        var result = _sut.CreateConnection(1, 2, ConnectionType.Friend, null, CancellationToken.None);
 
         // Assert
         await _characters
@@ -59,10 +61,10 @@ public class ConnectionServiceTests
             .Returns(true);
 
         // Act
-        await _sut.CreateConnection(1, 2, ConnectionType.Friend, CancellationToken.None);
+        await _sut.CreateConnection(1, 2, ConnectionType.Friend, null, CancellationToken.None);
 
         // Assert
-        await _crudOperator
+        await _connectionOps
             .Received(1)
             .AddAsync(Arg.Any<Connection>(), CancellationToken.None);
     }
@@ -81,15 +83,15 @@ public class ConnectionServiceTests
         _myEntity
             .IsAdded
             .Returns(true);
-        _crudOperator
+        _connectionOps
             .AddAsync(Arg.Any<Connection>(), CancellationToken.None)
             .Returns(_myEntity);
 
         // Act
-        await _sut.CreateConnection(1, 2, ConnectionType.Friend, CancellationToken.None);
+        await _sut.CreateConnection(1, 2, ConnectionType.Friend, null, CancellationToken.None);
 
         // Assert
-        await _crudOperator
+        await _connectionOps
             .Received(1)
             .SaveChanges(CancellationToken.None);
     }
@@ -110,7 +112,7 @@ public class ConnectionServiceTests
             .Returns(true);
 
         // Act
-        var result = await _sut.CreateConnection(1, 2, ConnectionType.Friend, CancellationToken.None);
+        var result = await _sut.CreateConnection(1, 2, ConnectionType.Friend, null, CancellationToken.None);
 
         // Assert
         result

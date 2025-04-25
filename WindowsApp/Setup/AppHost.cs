@@ -1,37 +1,40 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WindowsApp.Domain.ApiAccess;
+using WindowsApp.ViewModels;
 
-namespace WindowsApp.Setup;
-
-public static class AppHost
+namespace WindowsApp.Setup
 {
-    public static IHost? Host { get; private set; }
-
-    public static void Init()
+    public static class AppHost
     {
-        Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
-            .ConfigureServices((context, services) =>
-            {
-                // Register your services here
-                services.AddSingleton<ApiService>();
-                services.AddSingleton<MainViewModel>();
-                services.AddSingleton<MainWindow>(provider =>
+        private static IHost? _host;
+        public static IHost Host => _host ??= CreateHost();
+
+        private static IHost CreateHost() =>
+            Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
+                .ConfigureServices((context, services) =>
                 {
-                    return new MainWindow
+                    // Register configuration
+                    var appSettings = new AppSettings
                     {
-                        DataContext = provider.GetRequiredService<MainViewModel>()
+                        Host = "http://localhost:5001"
                     };
-                });
-            })
-            .Build();
-    }
+                    services.AddSingleton(appSettings);
 
-    public static T GetService<T>() where T : notnull
-    {
-        if(Host == null)
-        {
-            throw new Exception("Host was not setup correctly");
-        }
-        return Host.Services.GetRequiredService<T>();
+                    // Register HttpClient
+                    services.AddHttpClient<IRelationshipHttpClient, RelationshipHttpClient>();
+
+                    // Register access layer
+                    services.AddSingleton<IRelationshipApplicationAccess, RelationshipApplicationAccess>();
+
+                    // Register ViewModels
+                    services.AddSingleton<MainViewModel>();
+
+                    // Register Windows
+                    services.AddTransient<Views.Main>();
+                })
+                .Build();
+
+        public static IServiceProvider Services => Host.Services;
     }
 }
