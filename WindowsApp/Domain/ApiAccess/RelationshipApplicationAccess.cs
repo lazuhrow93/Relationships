@@ -12,17 +12,26 @@ public interface IRelationshipApplicationAccess
 public class RelationshipApplicationAccess : IRelationshipApplicationAccess
 {
     private readonly IRelationshipHttpClient _httpClient;
-
-    public RelationshipApplicationAccess(IRelationshipHttpClient httpClient)
+    private readonly AppSettings _appSettings;
+    
+    public RelationshipApplicationAccess(IRelationshipHttpClient httpClient,
+        AppSettings appSettings)
     {
         _httpClient = httpClient;
+        _appSettings = appSettings;
     }
+
+    public AppSettings Config => _appSettings;
 
     public async Task<Character[]> GetMyCharacters(int userId, bool withConnections, CancellationToken cancellationToken)
     {
         try
         {
-            var userCharacters = await _httpClient.GetAsync<Character[]>(RelationshipUrls.GetUserCharacters(userId), cancellationToken);
+            var uriBuilder = new UriBuilder();
+            uriBuilder.Host = Config.Host;
+            uriBuilder.Path = RelationshipUrls.GetUserCharacters(userId);
+            uriBuilder.Query = RelationshipUrls.WithConnections(withConnections);
+            var userCharacters = await _httpClient.GetAsync<Character[]>(uriBuilder, cancellationToken);
             return userCharacters ?? [];
         }
         catch (Exception e)

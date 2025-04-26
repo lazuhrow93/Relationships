@@ -31,7 +31,7 @@ public class MainViewModel
 
     public async Task LoadUserCharacters(int id, bool withConnections = false)
     {
-        var characters = await _apiAccess.GetMyCharacters(id, false, CancellationToken.None);
+        var characters = await _apiAccess.GetMyCharacters(id, true, CancellationToken.None);
 
         UserCharacters.Clear();
 
