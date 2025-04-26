@@ -12,4 +12,6 @@ public class Character
 
     [JsonPropertyName("targetConnections")]
     public Connection[]? Connections { get; set; }
+
+    public int TotalConnections => Connections?.Count() ?? 0;
 }

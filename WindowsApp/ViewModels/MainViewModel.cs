@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Security.RightsManagement;
 using System.Windows.Input;
 using WindowsApp.Commands;
 using WindowsApp.Domain.ApiAccess;
@@ -30,9 +29,9 @@ public class MainViewModel
         window.Show();
     }
 
-    public async Task LoadUserCharacters(int id)
+    public async Task LoadUserCharacters(int id, bool withConnections = false)
     {
-        var characters = await _apiAccess.GetMyCharacters(id, CancellationToken.None);
+        var characters = await _apiAccess.GetMyCharacters(id, false, CancellationToken.None);
 
         UserCharacters.Clear();
 

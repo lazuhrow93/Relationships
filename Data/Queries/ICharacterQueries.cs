@@ -5,7 +5,7 @@ namespace Data.Queries;
 
 public interface ICharacterQueries : IEntityQueries<Character>
 {
-    Task<Character[]> ForUser(int userId, CancellationToken cancellationToken);
+    Task<Character[]> ForUser(int userId, bool? includeConnection, CancellationToken cancellationToken);
 }
 
 public class CharacterQueries : EntityQueries<Character>, ICharacterQueries
@@ -14,8 +14,14 @@ public class CharacterQueries : EntityQueries<Character>, ICharacterQueries
     {
     }
 
-    public Task<Character[]> ForUser(int userId, CancellationToken cancellationToken)
+    public Task<Character[]> ForUser(int userId, bool? withConnections, CancellationToken cancellationToken)
     {
-        return Query.Where(c => c.UserId == userId).ToArrayAsync(cancellationToken);
+        var q = Query
+            .Where(c => c.UserId == userId);
+        if(withConnections == true)
+        {
+            q = q.Include(c => c.TargetConnections);
+        }
+        return q.ToArrayAsync(cancellationToken);
     }
 }

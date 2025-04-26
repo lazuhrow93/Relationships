@@ -22,7 +22,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="UserId" Binding="{Binding UserId}" />
                 <DataGridTextColumn Header="CharacterName" Binding="{Binding CharacterName}" />
-                <DataGridTextColumn Header="Connections" Binding="{Binding Connections}" />
+                <DataGridTextColumn Header="Connections" Binding="{Binding TotalConnections}" />
             </DataGrid.Columns>
         </DataGrid>
 

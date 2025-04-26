@@ -47,9 +47,9 @@ public class CharacterController : Controller
 
     [HttpGet]
     [Route("{userId:int}")]
-    public async Task<Character[]> GetUserCharacters(int userId, CancellationToken cancellationToken)
+    public async Task<Character[]> GetUserCharacters(int userId, [FromQuery] bool? includeConnections, CancellationToken cancellationToken)
     {
-        return await _characters.ForUser(userId, cancellationToken);
+        return await _characters.ForUser(userId, includeConnections ?? false, cancellationToken);
     }
 
     [HttpPut]

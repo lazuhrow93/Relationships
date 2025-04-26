@@ -6,7 +6,7 @@ namespace WindowsApp.Domain.ApiAccess;
 
 public interface IRelationshipApplicationAccess
 {
-    Task<Character[]> GetMyCharacters(int userId, CancellationToken cancellationToken);
+    Task<Character[]> GetMyCharacters(int userId, bool withConnections, CancellationToken cancellationToken);
 }
 
 public class RelationshipApplicationAccess : IRelationshipApplicationAccess
@@ -18,7 +18,7 @@ public class RelationshipApplicationAccess : IRelationshipApplicationAccess
         _httpClient = httpClient;
     }
 
-    public async Task<Character[]> GetMyCharacters(int userId, CancellationToken cancellationToken)
+    public async Task<Character[]> GetMyCharacters(int userId, bool withConnections, CancellationToken cancellationToken)
     {
         try
         {
