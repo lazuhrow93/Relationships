@@ -10,7 +10,7 @@ namespace WindowsApp.ViewModels;
 
 public class MainViewModel
 {
-    private ObservableCollection<UserCharacters> _userCharacters { get; } = new();
+    private ObservableCollection<Character> _userCharacters { get; } = new();
     private ICommand _addCharacters;
 
     private IRelationshipApplicationAccess _apiAccess;
@@ -21,7 +21,7 @@ public class MainViewModel
         _addCharacters = new RelayCommand(ShowAddCharacterWindow);
     }
 
-    public ObservableCollection<UserCharacters> UserCharacters => _userCharacters;
+    public ObservableCollection<Character> UserCharacters => _userCharacters;
     public ICommand AddCharacter => _addCharacters;
 
     public void ShowAddCharacterWindow(object? obj)

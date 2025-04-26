@@ -2,11 +2,14 @@
 
 namespace WindowsApp.Domain.Models;
 
-public class UserCharacters
+public class Character
 {
     [JsonPropertyName("userId")]
-    public string? UserId { get; set; }
+    public int? UserId { get; set; }
 
     [JsonPropertyName("name")]
     public string? CharacterName { get; set; }
+
+    [JsonPropertyName("targetConnections")]
+    public Connection[]? Connections { get; set; }
 }

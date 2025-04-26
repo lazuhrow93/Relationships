@@ -19,6 +19,10 @@ public class RelationshipHttpClient : IRelationshipHttpClient
     {
         _httpClient = httpClient;
         _appSettings = appSettings;
+
+        if (string.IsNullOrWhiteSpace(appSettings.Host))
+            throw new ArgumentException("Host cannot be null or empty", nameof(appSettings.Host));
+        _httpClient.BaseAddress = new Uri(appSettings.Host);
     }
 
     public AppSettings Config => _appSettings;

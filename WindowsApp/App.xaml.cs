@@ -1,9 +1,8 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WindowsApp.Setup;
+using WindowsApp.Views;
 
 namespace WindowsApp;
 /// <summary>
@@ -19,7 +18,7 @@ public partial class App : Application
         AppHost.Host.Start();
 
         // Resolve and show main window
-        var mainWindow = AppHost.Services.GetRequiredService<WindowsApp.Views.Main>();
+        var mainWindow = AppHost.Services.GetRequiredService<Main>();
         mainWindow.Show();
     }
 }
