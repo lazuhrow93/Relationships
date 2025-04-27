@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using System.Text.Json;
-using WindowsApp.Setup;
 
 namespace WindowsApp.Domain.ApiAccess;
 
@@ -26,7 +25,7 @@ public class RelationshipHttpClient : IRelationshipHttpClient
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<T>(content);
     }
-
+     
     public async Task<T?> GetAsync<T>(UriBuilder uriBuilder, CancellationToken cancellationToken)
     {
         var response = await _httpClient.GetAsync(uriBuilder.Uri, cancellationToken);

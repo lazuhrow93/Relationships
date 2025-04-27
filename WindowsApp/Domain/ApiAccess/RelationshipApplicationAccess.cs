@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using WindowsApp.Domain.Models;
+using WindowsApp.Extensions;
 using WindowsApp.Setup;
 
 namespace WindowsApp.Domain.ApiAccess;
@@ -28,7 +29,7 @@ public class RelationshipApplicationAccess : IRelationshipApplicationAccess
         try
         {
             var uriBuilder = new UriBuilder();
-            uriBuilder.Host = Config.Host;
+            uriBuilder.WithHost(Config);
             uriBuilder.Path = RelationshipUrls.GetUserCharacters(userId);
             uriBuilder.Query = RelationshipUrls.WithConnections(withConnections);
             var userCharacters = await _httpClient.GetAsync<Character[]>(uriBuilder, cancellationToken);

@@ -4,7 +4,7 @@ public static class RelationshipUrls
 {
     #region Paths
     
-    public static string GetUserCharacters(int userId) => $"/character/{userId}";
+    public static string GetUserCharacters(int userId) => $"character/{userId}";
 
     #endregion
 

@@ -17,7 +17,9 @@ namespace WindowsApp.Setup
                     // Register configuration
                     var appSettings = new AppSettings
                     {
-                        Host = "http://localhost:5001"
+                        Scheme = "http",
+                        Host = "localhost",
+                        Port = 5001
                     };
                     services.AddSingleton(appSettings);
 
