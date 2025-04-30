@@ -20,7 +20,7 @@ public class CharacterQueries : EntityQueries<Character>, ICharacterQueries
             .Where(c => c.UserId == userId);
         if(withConnections == true)
         {
-            q = q.Include(c => c.TargetConnections);
+            q = q.Include(c => c.SourceConnections);
         }
         return q.ToArrayAsync(cancellationToken);
     }

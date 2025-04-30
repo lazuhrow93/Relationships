@@ -1,4 +1,5 @@
 ﻿using Api.Controllers.Dto;
+using Api.Controllers.Response;
 using Data.Queries;
 using Domain;
 using Domain.Models.Entities;
@@ -47,9 +48,28 @@ public class CharacterController : Controller
 
     [HttpGet]
     [Route("{userId:int}")]
-    public async Task<Character[]> GetUserCharacters(int userId, [FromQuery] bool? includeConnections, CancellationToken cancellationToken)
+    public async Task<CharacterResponseDto[]> GetUserCharacters(int userId, [FromQuery] bool? includeConnections, CancellationToken cancellationToken)
     {
-        return await _characters.ForUser(userId, includeConnections ?? false, cancellationToken);
+        var result = await _characters.ForUser(userId, includeConnections ?? false, cancellationToken);
+
+        return result.Select(c =>
+        {
+            return new CharacterResponseDto()
+            {
+                UserId = userId,
+                CharacterId = c.Id,
+                Name = c.Name,
+                Connections = c.SourceConnections.Select(sc =>
+                {
+                    return new CharacterConnectionResponseDto()
+                    {
+                        CharacterId = sc.TargetCharacter.Id,
+                        Name = sc.TargetCharacter.Name,
+                        TypeOfConnection = sc.ConnectionType.ToString()
+                    };
+                }).ToArray()
+            };
+        }).ToArray();
     }
 
     [HttpPut]

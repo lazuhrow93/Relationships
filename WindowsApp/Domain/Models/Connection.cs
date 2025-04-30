@@ -4,12 +4,12 @@ namespace WindowsApp.Domain.Models;
 
 public class Connection
 {
-    [JsonPropertyName("targetCharacterId")]
+    [JsonPropertyName("characterId")]
     public int? CharacterId { get; set; }
 
-    [JsonPropertyName("targetCharacter")]
+    [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    [JsonPropertyName("connectionType")]
-    public int? TypeOfConnection { get; set; }
+    [JsonPropertyName("typeOfConnection")]
+    public string? TypeOfConnection { get; set; }
 }

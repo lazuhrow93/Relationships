@@ -20,33 +20,73 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="UserId" Binding="{Binding UserId}" />
                 <DataGridTextColumn Header="CharacterName" Binding="{Binding CharacterName}" />
                 <DataGridTextColumn Header="Connections" Binding="{Binding TotalConnections}" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <Grid Grid.Row="1" VerticalAlignment="Center">
             <!-- Define two columns in the inner grid: one for the label, one for the button -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
                 <!-- For the Label -->
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
                 <!-- For the Button -->
             </Grid.ColumnDefinitions>
 
-            <!-- Label "Add Character" -->
-            <Label Grid.Column="0"
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Label -->
+                    <ColumnDefinition Width="2*"/>
+                    <!-- ComboBox -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Submit Button -->
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
+                       Content="Choose Character:"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0" />
+
+                <!-- ComboBox -->
+                <ComboBox Grid.Column="1"
+                          ItemsSource="{Binding UserCharacters}"
+                          DisplayMemberPath="CharacterName"
+                          SelectedItem="{Binding SelectedCharacter}"
+                          Margin="0,0,10,0"
+                          VerticalAlignment="Center"
+                          Width="150"/>
+
+                <!-- Submit Button -->
+                <Button Grid.Column="2"
+                        Content="Submit"
+                        Command="{Binding SubmitCharacterCommand}"
+                        VerticalAlignment="Center"
+                        Padding="10,5" />
+            </Grid>
+
+            <Grid Grid.Column="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <!-- For the Label -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- For the Button -->
+                </Grid.ColumnDefinitions>
+
+                <!-- Label "Add Character" -->
+                <Label Grid.Column="0"
                    Content="Add Character"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Right"
                    Margin="0,0,10,0" />
 
-            <!-- Plus Button -->
-            <Button Grid.Column="1"
+                <!-- Plus Button -->
+                <Button Grid.Column="1"
                     Content="+"
                     FontSize="20"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Width="40"
                     Height="40"
@@ -55,6 +95,7 @@
                     BorderBrush="DarkGray"
                     BorderThickness="1" 
                     Command ="{Binding AddCharacter}"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

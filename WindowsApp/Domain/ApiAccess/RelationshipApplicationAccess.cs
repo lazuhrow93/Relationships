@@ -26,18 +26,11 @@ public class RelationshipApplicationAccess : IRelationshipApplicationAccess
 
     public async Task<Character[]> GetMyCharacters(int userId, bool withConnections, CancellationToken cancellationToken)
     {
-        try
-        {
-            var uriBuilder = new UriBuilder();
-            uriBuilder.WithHost(Config);
-            uriBuilder.Path = RelationshipUrls.GetUserCharacters(userId);
-            uriBuilder.Query = RelationshipUrls.WithConnections(withConnections);
-            var userCharacters = await _httpClient.GetAsync<Character[]>(uriBuilder, cancellationToken);
-            return userCharacters ?? [];
-        }
-        catch (Exception e)
-        {
-            return [];
-        }
+        var uriBuilder = new UriBuilder();
+        uriBuilder.WithHost(Config);
+        uriBuilder.Path = RelationshipUrls.GetUserCharacters(userId);
+        uriBuilder.Query = RelationshipUrls.WithConnections(withConnections);
+        var userCharacters = await _httpClient.GetAsync<Character[]>(uriBuilder, cancellationToken);
+        return userCharacters ?? [];
     }
 }
