@@ -5,8 +5,8 @@ namespace WindowsApp.Domain.ApiAccess;
 
 public interface IRelationshipHttpClient
 {
-    Task<T?> GetAsync<T>(string url, CancellationToken cancellationToken);
     Task<T?> GetAsync<T>(UriBuilder uriBuilder, CancellationToken cancellationToken);
+    Task PostAsync<TRequest>(Uri uriBuilder, TRequest request, CancellationToken cancellationToken);
 }
 
 public class RelationshipHttpClient : IRelationshipHttpClient
@@ -17,20 +17,20 @@ public class RelationshipHttpClient : IRelationshipHttpClient
     {
         _httpClient = httpClient;
     }
-
-    public async Task<T?> GetAsync<T>(string url, CancellationToken cancellationToken)
-    {
-        var response = await _httpClient.GetAsync(url, cancellationToken);
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync(cancellationToken);
-        return JsonSerializer.Deserialize<T>(content);
-    }
      
-    public async Task<T?> GetAsync<T>(UriBuilder uriBuilder, CancellationToken cancellationToken)
+    public async Task<TResponse?> GetAsync<TResponse>(UriBuilder uriBuilder, CancellationToken cancellationToken)
     {
         var response = await _httpClient.GetAsync(uriBuilder.Uri, cancellationToken);
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
-        return JsonSerializer.Deserialize<T>(content);
+        return JsonSerializer.Deserialize<TResponse>(content);
+    }
+
+    public async Task PostAsync<TRequest>(Uri uriBuilder, TRequest request, CancellationToken cancellationToken)
+    {
+        var json = JsonSerializer.Serialize(request);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync(uriBuilder, content, cancellationToken);
+        response.EnsureSuccessStatusCode();
     }
 }

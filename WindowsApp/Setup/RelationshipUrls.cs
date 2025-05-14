@@ -5,6 +5,8 @@ public static class RelationshipUrls
     #region Paths
     
     public static string GetUserCharacters(int userId) => $"character/{userId}";
+    public static string GetConnectionsForCharacter(int characterId) => $"character/connections/{characterId}";
+    public static string CreateCharacter => $"character";
 
     #endregion
 

@@ -5,8 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WindowsApp.Views"
         mc:Ignorable="d"
-        Title="AddCharacter" Height="450" Width="800">
-    <Grid>
-        
+        Title="AddCharacter" 
+        SizeToContent="WidthAndHeight"
+        MinWidth="300"
+        MinHeight="200">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label FontSize="30"
+               Grid.Row="0"
+               HorizontalAlignment="Center">
+            Add Character
+        </Label>
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label FontSize = "25" Grid.Row="0" Grid.Column="0">
+                Name
+            </Label>
+            <TextBox Grid.Row="0"
+                     Grid.Column="1"
+                     Text="{Binding CharacterName}"></TextBox>
+        </Grid>
+        <Button 
+            Grid.Row="2" 
+            Content="Submit"
+            Command="{Binding SubmitNewCharacter}"></Button>
     </Grid>
 </Window>

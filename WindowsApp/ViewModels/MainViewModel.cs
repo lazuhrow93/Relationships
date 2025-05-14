@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using WindowsApp.Commands;
 using WindowsApp.Domain.ApiAccess;
 using WindowsApp.Domain.Models;
@@ -15,6 +16,7 @@ public class MainViewModel : INotifyPropertyChanged
 
     private ObservableCollection<Character> _userCharacters { get; } = new();
     private Character? _selectedCharacter;
+    private int _userId = 1;
 
     #endregion
 
@@ -27,21 +29,22 @@ public class MainViewModel : INotifyPropertyChanged
 
     #region Service Fields
 
+    private IServiceProvider _serviceProvider;
     private IRelationshipApplicationAccess _apiAccess;
 
     #endregion
 
-    public MainViewModel(IRelationshipApplicationAccess apiAccess)
+    public MainViewModel(IRelationshipApplicationAccess apiAccess, IServiceProvider serviceProvider)
     {
+        _serviceProvider = serviceProvider;
         _apiAccess = apiAccess;
         _addCharacters = new RelayCommand(ShowAddCharacterWindow);
-        _submitCharacterCommand = new RelayCommand(OnSubmitCharacter);
+        _submitCharacterCommand = new AsyncRelayCommand(OnSubmitCharacter); 
     }
 
     #region Model Properties
 
     public ObservableCollection<Character> UserCharacters => _userCharacters;
-
     public Character? SelectedCharacter
     {
         get => _selectedCharacter;
@@ -57,7 +60,6 @@ public class MainViewModel : INotifyPropertyChanged
     #region Command/Event Properties
 
     public ICommand AddCharacter => _addCharacters;
-
     public ICommand SubmitCharacterCommand => _submitCharacterCommand;
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -66,13 +68,15 @@ public class MainViewModel : INotifyPropertyChanged
 
     #region Service Properties
 
+    public IServiceProvider ServiceProvider => _serviceProvider;
     public IRelationshipApplicationAccess ApiAccess => _apiAccess;
 
     #endregion
 
     public void ShowAddCharacterWindow(object? obj)
-    {
-        AddCharacter window = new AddCharacter();
+    {   
+        var window = ServiceProvider.GetRequiredService<AddCharacter>();
+        window.SetUserId(_userId);
         window.Show();
     }
 
@@ -100,12 +104,21 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    public void OnSubmitCharacter(object? obj)
+    public async Task OnSubmitCharacter(object? obj)
     {
         if (SelectedCharacter is not null)
         {
-            int? userId = SelectedCharacter.UserId;
+            if (SelectedCharacter?.CharacterId is null)
+            {
+                MessageBox.Show("Please select a character first.");
+                return;
+            }
+
             // Now you can call your API
+            var characterConnections = await ApiAccess.GetConnectionsForCharacters(SelectedCharacter.CharacterId!.Value, CancellationToken.None);
+            var window = ServiceProvider.GetRequiredService<Views.ConnectionsForCharacter>();
+            window.ViewModel.AddCharacters(characterConnections?.Connections ?? []);
+            window.Show();
         }
     }
 

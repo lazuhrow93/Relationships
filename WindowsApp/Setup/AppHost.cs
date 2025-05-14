@@ -30,10 +30,14 @@ namespace WindowsApp.Setup
                     services.AddSingleton<IRelationshipApplicationAccess, RelationshipApplicationAccess>();
 
                     // Register ViewModels
-                    services.AddSingleton<MainViewModel>();
+                    services.AddSingleton<MainViewModel>()
+                        .AddScoped<ConnectionsForCharacterViewModel>()
+                        .AddScoped<AddCharacterViewModel>();
 
                     // Register Windows
-                    services.AddTransient<Views.Main>();
+                    services.AddTransient<Views.Main>()
+                        .AddTransient<Views.ConnectionsForCharacter>()
+                        .AddTransient<Views.AddCharacter>();
                 })
                 .Build();
 
