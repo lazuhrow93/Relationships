@@ -61,7 +61,7 @@
                 <!-- Submit Button -->
                 <Button Grid.Column="2"
                         Content="Submit"
-                        Command="{Binding SubmitCharacterCommand}"
+                        Command="{Binding ViewCharacterConnectionsCommand}"
                         VerticalAlignment="Center"
                         Padding="10,5" />
             </Grid>

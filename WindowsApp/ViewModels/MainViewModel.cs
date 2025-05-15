@@ -23,7 +23,7 @@ public class MainViewModel : INotifyPropertyChanged
     #region Command Fields
 
     private ICommand _addCharacters;
-    private ICommand _submitCharacterCommand;
+    private ICommand _viewCharacterConnectionsCommand;
 
     #endregion
 
@@ -39,7 +39,7 @@ public class MainViewModel : INotifyPropertyChanged
         _serviceProvider = serviceProvider;
         _apiAccess = apiAccess;
         _addCharacters = new RelayCommand(ShowAddCharacterWindow);
-        _submitCharacterCommand = new AsyncRelayCommand(OnSubmitCharacter); 
+        _viewCharacterConnectionsCommand = new AsyncRelayCommand(OnSubmitViewCharacterConnections); 
     }
 
     #region Model Properties
@@ -60,7 +60,7 @@ public class MainViewModel : INotifyPropertyChanged
     #region Command/Event Properties
 
     public ICommand AddCharacter => _addCharacters;
-    public ICommand SubmitCharacterCommand => _submitCharacterCommand;
+    public ICommand ViewCharacterConnectionsCommand => _viewCharacterConnectionsCommand;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -104,7 +104,7 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    public async Task OnSubmitCharacter(object? obj)
+    public async Task OnSubmitViewCharacterConnections(object? obj)
     {
         if (SelectedCharacter is not null)
         {
@@ -117,8 +117,9 @@ public class MainViewModel : INotifyPropertyChanged
             // Now you can call your API
             var characterConnections = await ApiAccess.GetConnectionsForCharacters(SelectedCharacter.CharacterId!.Value, CancellationToken.None);
             var window = ServiceProvider.GetRequiredService<Views.ConnectionsForCharacter>();
-            window.ViewModel.AddCharacters(characterConnections?.Connections ?? []);
+            var initWindowTask = window.InitializeConnectionsForCharacter(SelectedCharacter, _userId);
             window.Show();
+            await initWindowTask;
         }
     }
 

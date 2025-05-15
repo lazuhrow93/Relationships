@@ -1,4 +1,6 @@
-﻿namespace Api.Controllers.Dto;
+﻿using Api.Controllers.Dto;
+
+namespace Api.Controllers.Response;
 
 public class GetConnectionsForCharacterResponse
 {

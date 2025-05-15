@@ -1,4 +1,5 @@
-﻿using Api.Controllers.Dto;
+﻿using System.Linq;
+using Api.Controllers.Dto;
 using Api.Controllers.Response;
 using Data.Queries;
 using Domain;
@@ -119,6 +120,28 @@ public class CharacterController : Controller
                     CharacterName = r.TargetCharacter.Name,
                     RoleToCharacter = r.ConnectionType.ToString()
                 };
+            }).ToArray()
+        };
+    }
+    
+    [HttpGet]
+    [Route("nonconnections/{userId:int}/{characterId:int}")]
+    public async Task<GetDisconnectedCharactersResponse> GetNonConnectionsForCharacter(int userId, int characterId, CancellationToken cancellationToken)
+    {
+        var character = await _characters.Find(characterId, cancellationToken);
+        if (character == null)
+        {
+            throw new Exception("Character not found");
+        }
+
+        var disconnectedCharacters = await _characterService.FetchCharactersNotConnectedTo(characterId, userId, cancellationToken);
+
+        return new GetDisconnectedCharactersResponse()
+        {
+            Disconnections = disconnectedCharacters.Select(c => new DisconnectedCharactersDto()
+            {
+                CharacterId = c.Id,
+                Name = c.Name,
             }).ToArray()
         };
     }

@@ -25,3 +25,18 @@ public class ConnectionsForCharacter
         public int UserId { get; set; }
     }
 }
+
+public class DisconnectionsForCharacter
+{
+    [JsonPropertyName("disconnections")]
+    public Dto[] Disconnections { get; set; } = [];
+
+    public class Dto
+    {
+        [JsonPropertyName("characterId")]
+        public int CharacterId { get; set; }
+
+        [JsonPropertyName("name")]
+        public string? CharacterName { get; set; }
+    }
+}

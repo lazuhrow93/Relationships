@@ -6,6 +6,7 @@ public static class RelationshipUrls
     
     public static string GetUserCharacters(int userId) => $"character/{userId}";
     public static string GetConnectionsForCharacter(int characterId) => $"character/connections/{characterId}";
+    public static string GetDisconnectedForCharacter(int userId, int characterId) => $"character/nonconnections/{userId}/{characterId}";
     public static string CreateCharacter => $"character";
 
     #endregion

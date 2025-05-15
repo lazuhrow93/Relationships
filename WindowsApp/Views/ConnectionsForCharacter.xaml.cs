@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using WindowsApp.Domain.Models;
 using WindowsApp.ViewModels;
 
 namespace WindowsApp.Views
@@ -17,11 +18,9 @@ namespace WindowsApp.Views
             DataContext = _viewModel;
         }
 
-        public ConnectionsForCharacterViewModel ViewModel => _viewModel;
-
-        public void SetConnectedCharacters(IEnumerable<Domain.Models.ConnectionsForCharacter.Dto> connectedCharacters)
+        public Task InitializeConnectionsForCharacter(Character mainCharacter, int userId)
         {
-            ViewModel.AddCharacters(connectedCharacters);
+            return _viewModel.InitWindow(userId, mainCharacter);
         }
     }
 }

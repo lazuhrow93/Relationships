@@ -1,6 +1,7 @@
-﻿using Entities;
+﻿using Api.Controllers.Response;
+using Entities;
 
-namespace Api.Controllers.Response;
+namespace Api.Controllers.Dto;
 
 public class CharacterResponseDto
 {

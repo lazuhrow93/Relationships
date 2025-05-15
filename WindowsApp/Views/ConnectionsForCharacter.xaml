@@ -14,7 +14,7 @@
 
         <DataGrid
             Grid.Row="0"
-            ItemsSource="{Binding Characters}"
+            ItemsSource="{Binding ConnectedCharacters}"
             AutoGenerateColumns="False"
             Margin="0,0,0,10"
             Padding="10"
@@ -25,7 +25,39 @@
                 <DataGridTextColumn Header="CharacterName" Binding="{Binding CharacterName}" />
                 <DataGridTextColumn Header="Relation" Binding="{Binding ConnectionDescription}" />
             </DataGrid.Columns>
-            
         </DataGrid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Content="{Binding ConnectCharacterToLabel}"/>
+
+                <ComboBox Grid.Row="1"
+                          Margin="4"
+                          ItemsSource="{Binding DisconnectedCharacters}"
+                          DisplayMemberPath="CharacterName"/>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0">
+                        Relation:
+                    </Label>
+                    <ComboBox Grid.Column="1" Margin="4"></ComboBox>
+                </Grid>
+
+            </Grid>
+            
+        </Grid>
     </Grid>
 </Window>
