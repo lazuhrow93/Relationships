@@ -9,6 +9,7 @@ public class ConnectionsForCharacterViewModel
     private IRelationshipApplicationAccess _apiAccess;
     private ObservableCollection<ConnectionsForCharacter.Dto> _connectedCharacters { get; } = new();
     private ObservableCollection<DisconnectionsForCharacter.Dto> _disconnectedCharacters { get; } = new();
+    private ObservableCollection<RelationTypes.Dto> _relationTypes { get; } = new();
 
     private Character? _characterSpotlight = null;
 
@@ -22,6 +23,7 @@ public class ConnectionsForCharacterViewModel
 
     public ObservableCollection<ConnectionsForCharacter.Dto> ConnectedCharacters => _connectedCharacters;
     public ObservableCollection<DisconnectionsForCharacter.Dto> DisconnectedCharacters => _disconnectedCharacters;
+    public ObservableCollection<RelationTypes.Dto> RelationTypes => _relationTypes;
 
     public string CharacterName => _characterSpotlight?.CharacterName ?? _defaultCharacterName;
 
@@ -43,6 +45,13 @@ public class ConnectionsForCharacterViewModel
         foreach (var nonConnection in nonConnectedToCharacter!.Disconnections)
         {
             _disconnectedCharacters.Add(nonConnection);
+        }
+
+        var relationTypes = await _apiAccess.GetRelationTypes(CancellationToken.None);
+        var totalTypes = relationTypes?.Types ?? [];
+        foreach(var type in totalTypes)
+        {
+            _relationTypes.Add(type);
         }
     }
 }

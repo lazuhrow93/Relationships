@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers;
 
 [ApiController]
+[Route("[controller]")]
 public class PlatformInformationController : Controller
 {
     private readonly IRelationTypeQueries _relationTypeQueries;
@@ -15,6 +16,7 @@ public class PlatformInformationController : Controller
     }
 
     [HttpGet]
+    [Route("relation-types")]
     public async Task<RelationTypesResponse> GetRelationTypes(CancellationToken cancellationToken)
     {
         return new RelationTypesResponse()

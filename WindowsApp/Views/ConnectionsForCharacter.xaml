@@ -53,7 +53,10 @@
                     <Label Grid.Column="0">
                         Relation:
                     </Label>
-                    <ComboBox Grid.Column="1" Margin="4"></ComboBox>
+                    <ComboBox Grid.Column="1" 
+                              Margin="4"
+                              ItemsSource="{Binding RelationTypes}"
+                              DisplayMemberPath="Name"></ComboBox>
                 </Grid>
 
             </Grid>

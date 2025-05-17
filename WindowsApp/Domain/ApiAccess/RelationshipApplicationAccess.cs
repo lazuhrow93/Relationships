@@ -13,6 +13,7 @@ public interface IRelationshipApplicationAccess
     Task<ConnectionsForCharacter?> GetConnectionsForCharacters(int characterId, CancellationToken cancellationToken);
     Task CreateCharacter(CreateCharacterRequest character, CancellationToken cancellationToken);
     Task<DisconnectionsForCharacter?> GetNonConnectedCharacters(int userId, int characterId, CancellationToken cancellationToken);
+    Task<RelationTypes?> GetRelationTypes(CancellationToken cancellationToken);
 }
 
 public class RelationshipApplicationAccess : IRelationshipApplicationAccess
@@ -63,5 +64,13 @@ public class RelationshipApplicationAccess : IRelationshipApplicationAccess
         uriBuilder.WithHost(Config);
         uriBuilder.Path = RelationshipUrls.CreateCharacter;
         await _httpClient.PostAsync(uriBuilder.Uri, characterName, cancellationToken);
+    }
+
+    public async Task<RelationTypes?> GetRelationTypes(CancellationToken cancellationToken)
+    {
+        var uriBuilder = new UriBuilder();
+        uriBuilder.WithHost(Config);
+        uriBuilder.Path = RelationshipUrls.GetRelationTypes;
+        return await _httpClient.GetAsync<RelationTypes>(uriBuilder, cancellationToken);
     }
 }

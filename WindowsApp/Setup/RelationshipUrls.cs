@@ -8,6 +8,7 @@ public static class RelationshipUrls
     public static string GetConnectionsForCharacter(int characterId) => $"character/connections/{characterId}";
     public static string GetDisconnectedForCharacter(int userId, int characterId) => $"character/nonconnections/{userId}/{characterId}";
     public static string CreateCharacter => $"character";
+    public static string GetRelationTypes => $"platforminformation/relation-types";
 
     #endregion
 
