@@ -37,7 +37,7 @@ public class ConnectionServiceTests
             .Returns([]);
 
         // Act
-        var result = _sut.CreateConnection(1, 2, ConnectionType.Friend, null, CancellationToken.None);
+        var result = _sut.CreateConnection(1, 2, RelationType.Friend, null, CancellationToken.None);
 
         // Assert
         await _characters
@@ -61,7 +61,7 @@ public class ConnectionServiceTests
             .Returns(true);
 
         // Act
-        await _sut.CreateConnection(1, 2, ConnectionType.Friend, null, CancellationToken.None);
+        await _sut.CreateConnection(1, 2, RelationType.Friend, null, CancellationToken.None);
 
         // Assert
         await _connectionOps
@@ -88,7 +88,7 @@ public class ConnectionServiceTests
             .Returns(_myEntity);
 
         // Act
-        await _sut.CreateConnection(1, 2, ConnectionType.Friend, null, CancellationToken.None);
+        await _sut.CreateConnection(1, 2, RelationType.Friend, null, CancellationToken.None);
 
         // Assert
         await _connectionOps
@@ -112,7 +112,7 @@ public class ConnectionServiceTests
             .Returns(true);
 
         // Act
-        var result = await _sut.CreateConnection(1, 2, ConnectionType.Friend, null, CancellationToken.None);
+        var result = await _sut.CreateConnection(1, 2, RelationType.Friend, null, CancellationToken.None);
 
         // Assert
         result
@@ -124,7 +124,7 @@ public class ConnectionServiceTests
                 Id = result!.Id,
                 SourceCharacterId = 1,
                 TargetCharacterId = 2,
-                ConnectionType = ConnectionType.Friend,
+                RelationType = RelationType.Friend,
                 SourceCharacter = null,
                 TargetCharacter = null,
             });

@@ -1,13 +1,12 @@
 ﻿using Data.Operations;
 using Data.Queries;
 using Entities;
-using Entities.Enums;
 
 namespace Domain;
 
 public interface IConnectionService
 {
-    Task<Connection?> CreateConnection(int characterOneId, int characterTwoId, ConnectionType connectionType, string? Note, CancellationToken cancellationToken);
+    Task<Connection?> CreateConnection(int characterOneId, int characterTwoId, int connectionTypeId, string? Note, CancellationToken cancellationToken);
 }
 
 public class ConnectionService : IConnectionService
@@ -25,7 +24,7 @@ public class ConnectionService : IConnectionService
         _characters = characters;
     }
 
-    public async Task<Connection?> CreateConnection(int characterOneId, int characterTwoId, ConnectionType connectionType, string? note, CancellationToken cancellationToken)
+    public async Task<Connection?> CreateConnection(int characterOneId, int characterTwoId, int connectionTypeId, string? note, CancellationToken cancellationToken)
     {
         var characters = await _characters.FindMany(new HashSet<int>([characterOneId, characterTwoId]), cancellationToken);
 
@@ -38,7 +37,7 @@ public class ConnectionService : IConnectionService
         {
             SourceCharacterId = characterOneId,
             TargetCharacterId = characterTwoId,
-            ConnectionType = connectionType
+            RelationTypeId = connectionTypeId
         };
 
         var result = await _connectionOperations.AddAsync(newConnection, cancellationToken);

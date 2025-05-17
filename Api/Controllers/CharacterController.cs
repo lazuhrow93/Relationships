@@ -66,7 +66,7 @@ public class CharacterController : Controller
                     {
                         CharacterId = sc.TargetCharacter.Id,
                         Name = sc.TargetCharacter.Name,
-                        TypeOfConnection = sc.ConnectionType.ToString()
+                        TypeOfConnection = sc.RelationType?.Name?.ToString()
                     };
                 }).ToArray()
             };
@@ -80,7 +80,7 @@ public class CharacterController : Controller
         var result = await _connectionService.CreateConnection(
             dto.CharacterFrom,
             dto.CharacterTo,
-            dto.ConnectionType,
+            dto.ConnectionTypeId,
             dto.Note,
             cancellationToken);
 
@@ -94,7 +94,7 @@ public class CharacterController : Controller
             ConnectionId = result.Id,
             CharacterOneId = result.SourceCharacterId,
             CharacterTwoId = result.TargetCharacterId,
-            ConnectionTypeId = (int)result.ConnectionType
+            ConnectionTypeId = result.RelationType?.Id ?? 0
         };
     }
 
@@ -118,7 +118,7 @@ public class CharacterController : Controller
                 {
                     Id = r.TargetCharacter.Id,
                     CharacterName = r.TargetCharacter.Name,
-                    RoleToCharacter = r.ConnectionType.ToString()
+                    RoleToCharacter = r.RelationType?.ToString()
                 };
             }).ToArray()
         };

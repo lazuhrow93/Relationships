@@ -1,6 +1,4 @@
-﻿using Entities.Enums;
-
-namespace Api.Controllers.Response;
+﻿namespace Api.Controllers.Response;
 
 public class ConnectCharactersResponse
 {

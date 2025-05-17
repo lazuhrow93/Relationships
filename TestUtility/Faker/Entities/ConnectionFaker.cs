@@ -15,6 +15,6 @@ public class ConnectionFaker : EntityFaker<Connection, ConnectionFaker>
         RuleFor(c => c.SourceCharacter, _ => char1);
         RuleFor(c => c.TargetCharacter, _ => char2);
         RuleFor(c => c.Notes, _ => []);
-        RuleFor(c => c.ConnectionType, f => f.PickRandom<ConnectionType>());
+        RuleFor(c => c.RelationType, f => f.PickRandom<RelationType>());
     }
 }
