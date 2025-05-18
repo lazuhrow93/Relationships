@@ -5,9 +5,9 @@ namespace Api.Controllers.Response;
 public class GetConnectionsForCharacterResponse
 {
     public int CharacterId { get; set; }
-    public Dto[] Connections { get; set; } = [];
+    public GetConnectionsForCharacterDto[] Connections { get; set; } = [];
 
-    public class Dto
+    public class GetConnectionsForCharacterDto
     {
         public int Id { get; set; }
         public string? CharacterName { get; set; }

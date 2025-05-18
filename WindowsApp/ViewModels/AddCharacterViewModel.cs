@@ -43,8 +43,7 @@ public class AddCharacterViewModel
         }
     }
 
-    public string? CharacterDescription;
-
+    public string? CharacterDescription { get; set; }
     public int? UserId => _userId;
 
     #endregion

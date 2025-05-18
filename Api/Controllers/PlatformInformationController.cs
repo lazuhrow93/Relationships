@@ -22,7 +22,7 @@ public class PlatformInformationController : Controller
         return new RelationTypesResponse()
         {
             Types = (await _relationTypeQueries.GetAll(cancellationToken))
-                .Select(r => new RelationTypesResponse.Dto()
+                .Select(r => new RelationTypesResponse.RelationTypesDto()
                 {
                     RelationTypeId = r.Id,
                     Name = r.Name

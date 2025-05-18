@@ -116,7 +116,7 @@ public class CharacterController : Controller
             CharacterId = characterId,
             Connections = result.Select(r =>
             {
-                return new GetConnectionsForCharacterResponse.Dto()
+                return new GetConnectionsForCharacterResponse.GetConnectionsForCharacterDto()
                 {
                     Id = r.TargetCharacter.Id,
                     CharacterName = r.TargetCharacter.Name,

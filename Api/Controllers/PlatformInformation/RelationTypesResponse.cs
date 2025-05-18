@@ -2,9 +2,9 @@
 
 public class RelationTypesResponse
 {
-    public Dto[] Types { get; set; } = [];
+    public RelationTypesDto[] Types { get; set; } = [];
 
-    public class Dto
+    public class RelationTypesDto
     {
         public int RelationTypeId { get; set; }
         public string? Name { get; set; }
