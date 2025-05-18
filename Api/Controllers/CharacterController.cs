@@ -31,12 +31,14 @@ public class CharacterController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCharacter([FromBody] ConnectionDescriptionDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateCharacter([FromBody] NewCharacterDto dto, CancellationToken cancellationToken)
     {
         var model = new CharacterModel()
         {
             UserId = dto.UserId,
-            Name = dto.CharacterName
+            Name = dto.CharacterName,
+            Description = dto.Description
+            
         };
 
         var result = await _characterService.CreateCharacter(model, cancellationToken);
@@ -114,7 +116,7 @@ public class CharacterController : Controller
             CharacterId = characterId,
             Connections = result.Select(r =>
             {
-                return new ConnectionDescriptionDto()
+                return new GetConnectionsForCharacterResponse.Dto()
                 {
                     Id = r.TargetCharacter.Id,
                     CharacterName = r.TargetCharacter.Name,

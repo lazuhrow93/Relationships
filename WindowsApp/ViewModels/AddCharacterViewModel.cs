@@ -43,6 +43,8 @@ public class AddCharacterViewModel
         }
     }
 
+    public string? CharacterDescription;
+
     public int? UserId => _userId;
 
     #endregion
@@ -68,7 +70,8 @@ public class AddCharacterViewModel
         var character = new CreateCharacterRequest
         {
             CharacterName = CharacterName,
-            UserId = UserId.Value
+            UserId = UserId.Value,
+            Description = CharacterDescription
         };
         return _api.CreateCharacter(character, CancellationToken.None);
     }

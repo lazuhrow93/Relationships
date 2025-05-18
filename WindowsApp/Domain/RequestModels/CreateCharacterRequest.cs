@@ -10,8 +10,8 @@ public class CreateCharacterRequest
     [JsonPropertyName("characterName")]
     public string? CharacterName { get; set; }
 
-    [JsonPropertyName("roleToCharacter")]
-    public string? RoleToCharacter { get; set; }
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
 
     [JsonPropertyName("userId")]
     public int UserId { get; set; }

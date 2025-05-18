@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Data.Operations;
+﻿using Data.Operations;
 using Data.Queries;
 using Domain.Models.Entities;
 using Entities;
@@ -31,7 +30,8 @@ public class CharacterService : ICharacterService
         var newCharacter = new Character()
         {
             UserId = model.UserId,
-            Name = model.Name
+            Name = model.Name,
+            Description = model.Description
         };
 
         var result = await _operations.AddAsync(newCharacter, cancellationToken);
