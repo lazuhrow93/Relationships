@@ -63,7 +63,7 @@
                           VerticalAlignment="Center"/>
                 <Button Grid.Row ="0" 
                         Grid.Column="2"
-                        Content="Submit"
+                        Content="View"
                         Command="{Binding ViewCharacterConnectionsCommand}"
                         VerticalAlignment="Center"
                         Margin="5" />

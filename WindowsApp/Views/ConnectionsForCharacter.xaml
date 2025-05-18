@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:WindowsApp.Views"
         mc:Ignorable="d"
         Title="ConnectionsForCharacter" 
-        Height="450" Width="500"
-        MinHeight="450" MinWidth="500">
+        Height="500" Width="500"
+        MinHeight="500" MinWidth="500">
     <Grid Margin ="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="3*" />
