@@ -1,7 +1,8 @@
 ﻿<Window x:Class="WindowsApp.Views.Main"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Main" Height="450" Width="800">
+        Title="Main" Height="450" Width="500"
+        MinHeight="450" MinWidth="500">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="3*" />
@@ -18,83 +19,75 @@
             Padding="10"
             HeadersVisibility="Column"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
+            HorizontalScrollBarVisibility="Auto">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="CharacterName" Binding="{Binding CharacterName}" />
-                <DataGridTextColumn Header="Connections" Binding="{Binding TotalConnections}" />
+                <DataGridTextColumn 
+                    Header="Character" 
+                    Width="*"
+                    Binding="{Binding CharacterName}" />
+                <DataGridTextColumn 
+                    Header="Connections" 
+                    Width="*"
+                    Binding="{Binding TotalConnections}" />
             </DataGrid.Columns>
         </DataGrid>
 
         <Grid Grid.Row="1" VerticalAlignment="Center">
-            <!-- Define two columns in the inner grid: one for the label, one for the button -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <!-- For the Label -->
-                <ColumnDefinition Width="1*" />
-                <!-- For the Button -->
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="3*"/>
                     <!-- Label -->
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
                     <!-- ComboBox -->
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="3*"/>
                     <!-- Submit Button -->
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0"
-                       Content="Choose Character:"
+                <!-- ROW 0 -->
+                <Label Grid.Row ="0" 
+                       Grid.Column="0"
+                       Content="View Connections:"
                        VerticalAlignment="Center"
                        Margin="0,0,10,0" />
-
-                <!-- ComboBox -->
-                <ComboBox Grid.Column="1"
+                <ComboBox Grid.Row ="0" 
+                          Grid.Column="1"
                           ItemsSource="{Binding UserCharacters}"
                           DisplayMemberPath="CharacterName"
                           SelectedItem="{Binding SelectedCharacter}"
-                          Margin="0,0,10,0"
-                          VerticalAlignment="Center"
-                          Width="150"/>
-
-                <!-- Submit Button -->
-                <Button Grid.Column="2"
+                          Margin="5"
+                          VerticalAlignment="Center"/>
+                <Button Grid.Row ="0" 
+                        Grid.Column="2"
                         Content="Submit"
                         Command="{Binding ViewCharacterConnectionsCommand}"
                         VerticalAlignment="Center"
-                        Padding="10,5" />
-            </Grid>
+                        Margin="5" />
 
-            <Grid Grid.Column="1">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <!-- For the Label -->
-                    <ColumnDefinition Width="Auto" />
-                    <!-- For the Button -->
-                </Grid.ColumnDefinitions>
-
-                <!-- Label "Add Character" -->
-                <Label Grid.Column="0"
-                   Content="Add Character"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Right"
-                   Margin="0,0,10,0" />
-
-                <!-- Plus Button -->
-                <Button Grid.Column="1"
-                    Content="+"
-                    FontSize="20"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Width="40"
-                    Height="40"
-                    Padding="0"
-                    Background="LightGray"
-                    BorderBrush="DarkGray"
-                    BorderThickness="1" 
-                    Command ="{Binding AddCharacter}"/>
+                <!-- ROW 1 -->
+                <Label Grid.Row ="1"
+                       Grid.Column="0"
+                       Content="Add Character"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0" />
+                <Button Grid.Row ="1"
+                        Grid.Column="1"
+                        Content="Add"
+                        VerticalAlignment="Center"
+                        Margin="5"
+                        Command ="{Binding AddCharacter}"/>
+                
+                <!-- Row 2-->
+                <Button
+                    Grid.Row="2"
+                    Grid.ColumnSpan="3"
+                    Content="Refresh Window"
+                    Command="{Binding RefreshWindowCommand}"
+                    Margin="5"/>
             </Grid>
         </Grid>
     </Grid>

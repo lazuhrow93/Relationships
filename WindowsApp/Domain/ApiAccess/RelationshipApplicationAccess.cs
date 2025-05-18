@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading;
-using WindowsApp.Domain.Models;
+﻿using WindowsApp.Domain.Models;
 using WindowsApp.Domain.RequestModels;
 using WindowsApp.Extensions;
 using WindowsApp.Setup;
@@ -14,6 +12,7 @@ public interface IRelationshipApplicationAccess
     Task CreateCharacter(CreateCharacterRequest character, CancellationToken cancellationToken);
     Task<DisconnectionsForCharacter?> GetNonConnectedCharacters(int userId, int characterId, CancellationToken cancellationToken);
     Task<RelationTypes?> GetRelationTypes(CancellationToken cancellationToken);
+    Task CreateConnection(int sourceCharacterId, int targetCharacterId, int relationTypeId, CancellationToken cancellationToken);
 }
 
 public class RelationshipApplicationAccess : IRelationshipApplicationAccess
@@ -72,5 +71,19 @@ public class RelationshipApplicationAccess : IRelationshipApplicationAccess
         uriBuilder.WithHost(Config);
         uriBuilder.Path = RelationshipUrls.GetRelationTypes;
         return await _httpClient.GetAsync<RelationTypes>(uriBuilder, cancellationToken);
+    }
+
+    public async Task CreateConnection(int sourceCharacterId, int targetCharacterId, int relationTypeId, CancellationToken cancellationToken)
+    {
+        var uriBuilder = new UriBuilder();
+        uriBuilder.WithHost(Config);
+        uriBuilder.Path = RelationshipUrls.CreateConnection;
+        var request = new CreateConnectionRequest()
+        {
+            CharacterFrom = sourceCharacterId,
+            CharacterTo = targetCharacterId,
+            ConnectionTypeId = relationTypeId
+        };
+        await _httpClient.PutAsync(uriBuilder.Uri, request, cancellationToken);
     }
 }

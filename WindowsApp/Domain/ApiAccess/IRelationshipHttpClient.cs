@@ -7,6 +7,7 @@ public interface IRelationshipHttpClient
 {
     Task<T?> GetAsync<T>(UriBuilder uriBuilder, CancellationToken cancellationToken);
     Task PostAsync<TRequest>(Uri uriBuilder, TRequest request, CancellationToken cancellationToken);
+    Task PutAsync<TRequest>(Uri uri, TRequest request, CancellationToken cancellationToken);
 }
 
 public class RelationshipHttpClient : IRelationshipHttpClient
@@ -31,6 +32,14 @@ public class RelationshipHttpClient : IRelationshipHttpClient
         var json = JsonSerializer.Serialize(request);
         var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(uriBuilder, content, cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task PutAsync<TRequest>(Uri uriBuilder, TRequest request, CancellationToken cancellationToken)
+    {
+        var json = JsonSerializer.Serialize(request);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+        var response = await _httpClient.PutAsync(uriBuilder, content, cancellationToken);
         response.EnsureSuccessStatusCode();
     }
 }

@@ -108,7 +108,7 @@ public class CharacterController : Controller
             throw new Exception("Character not found");
         }
         
-        var result = await _connections.GetConnectionsForCharacter(characterId, CharacterQueryOptions.IncludeCharacters, cancellationToken);
+        var result = await _connections.GetConnectionsForCharacter(characterId, CharacterQueryOptions.CharacterAndRelationType, cancellationToken);
         return new GetConnectionsForCharacterResponse()
         {
             CharacterId = characterId,
@@ -118,7 +118,7 @@ public class CharacterController : Controller
                 {
                     Id = r.TargetCharacter.Id,
                     CharacterName = r.TargetCharacter.Name,
-                    RoleToCharacter = r.RelationType?.Name ?? "unknown"
+                    RoleToCharacter = r.RelationType?.Name ?? "undefined"
                 };
             }).ToArray()
         };

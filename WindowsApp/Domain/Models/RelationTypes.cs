@@ -9,7 +9,10 @@ public class RelationTypes
 
     public class Dto
     {
+        [JsonPropertyName("relationTypeId")]
         public int Id { get; set; }
+
+        [JsonPropertyName("name")]
         public string? Name { get; set; }
     }
 }

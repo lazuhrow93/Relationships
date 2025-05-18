@@ -28,7 +28,8 @@ public static class Setup
         return serviceCollection
             .AddScoped(typeof(ICrudOperator<>), typeof(CrudOperations<>))
             .AddScoped<IConnectionQueries, ConnectionQueries>()
-            .AddScoped<ICharacterQueries, CharacterQueries>();
+            .AddScoped<ICharacterQueries, CharacterQueries>()
+            .AddScoped<IRelationTypeQueries, RelationTypeQueries>();
     }
 }
 

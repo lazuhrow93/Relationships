@@ -16,3 +16,15 @@ public class CreateCharacterRequest
     [JsonPropertyName("userId")]
     public int UserId { get; set; }
 }
+
+public class CreateConnectionRequest
+{
+    [JsonPropertyName("characterFrom")]
+    public int CharacterFrom { get; set; }
+    [JsonPropertyName("characterTo")]
+    public int CharacterTo { get; set; }
+    [JsonPropertyName("note")]
+    public string? Note { get; set; }
+    [JsonPropertyName("connectionTypeId")]
+    public int ConnectionTypeId { get; set; }
+}

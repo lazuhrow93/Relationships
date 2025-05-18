@@ -26,10 +26,15 @@ public class ConnectionQueries : EntityQueries<Connection>, IConnectionQueries
 
     private static IQueryable<Connection> ApplyOptions(IQueryable<Connection> query, CharacterQueryOptions options)
     {
-        if (options.characters)
+        if (options.Characters)
         {
-            return query.Include(c => c.SourceCharacter)
+            query =  query.Include(c => c.SourceCharacter)
                 .Include(c => c.TargetCharacter);
+        }
+
+        if (options.RelationTypes)
+        {
+            query = query.Include(c => c.RelationType);
         }
         return query;
     }
@@ -37,7 +42,8 @@ public class ConnectionQueries : EntityQueries<Connection>, IConnectionQueries
     #endregion
 }
 
-public record struct CharacterQueryOptions(bool characters)
+public record struct CharacterQueryOptions(bool Characters, bool RelationTypes)
 {
-    public static CharacterQueryOptions IncludeCharacters => new(true);
+    public static CharacterQueryOptions IncludeCharacters => new(true, false);
+    public static CharacterQueryOptions CharacterAndRelationType => new(true, true);
 }

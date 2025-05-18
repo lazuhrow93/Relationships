@@ -24,6 +24,7 @@ public class MainViewModel : INotifyPropertyChanged
 
     private ICommand _addCharacters;
     private ICommand _viewCharacterConnectionsCommand;
+    private ICommand _refreshWindowCommand;
 
     #endregion
 
@@ -39,7 +40,8 @@ public class MainViewModel : INotifyPropertyChanged
         _serviceProvider = serviceProvider;
         _apiAccess = apiAccess;
         _addCharacters = new RelayCommand(ShowAddCharacterWindow);
-        _viewCharacterConnectionsCommand = new AsyncRelayCommand(OnSubmitViewCharacterConnections); 
+        _viewCharacterConnectionsCommand = new AsyncRelayCommand(OnSubmitViewCharacterConnections);
+        _refreshWindowCommand = new AsyncRelayCommand(RefreshMyCharacters);
     }
 
     #region Model Properties
@@ -61,6 +63,8 @@ public class MainViewModel : INotifyPropertyChanged
 
     public ICommand AddCharacter => _addCharacters;
     public ICommand ViewCharacterConnectionsCommand => _viewCharacterConnectionsCommand;
+
+    public ICommand RefreshWindowCommand => _refreshWindowCommand;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -102,6 +106,11 @@ public class MainViewModel : INotifyPropertyChanged
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
         }
+    }
+
+    public async Task RefreshMyCharacters(object? obj)
+    {
+        await LoadUserCharacters(_userId);
     }
 
     public async Task OnSubmitViewCharacterConnections(object? obj)

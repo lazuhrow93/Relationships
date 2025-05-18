@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WindowsApp.Views"
         mc:Ignorable="d"
-        Title="ConnectionsForCharacter" Height="450" Width="800">
+        Title="ConnectionsForCharacter" 
+        Height="450" Width="500"
+        MinHeight="450" MinWidth="500">
     <Grid Margin ="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="3*" />
@@ -22,13 +24,18 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="CharacterName" Binding="{Binding CharacterName}" />
-                <DataGridTextColumn Header="Relation" Binding="{Binding ConnectionDescription}" />
+                <DataGridTextColumn 
+                    Header="CharacterName" 
+                    Width="*"
+                    Binding="{Binding CharacterName}" />
+                <DataGridTextColumn 
+                    Header="Relation" 
+                    Width="*"
+                    Binding="{Binding ConnectionDescription}" />
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
@@ -39,16 +46,31 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Content="{Binding ConnectCharacterToLabel}"/>
+                <Label Grid.Row="0"
+                       Width="Auto"
+                       Content="{Binding ConnectCharacterToLabel}"/>
+                <Grid Width="Auto" Grid.Row="1" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        Content="Select character:"/>
+                    <ComboBox
+                        Grid.Column="1"
+                        ItemsSource="{Binding DisconnectedCharacters}"
+                        Width="Auto"
+                        HorizontalAlignment="Stretch"
+                        DisplayMemberPath="CharacterName"
+                        SelectedItem="{Binding SelectedNewConnectionCharacter}"/>
 
-                <ComboBox Grid.Row="1"
-                          Margin="4"
-                          ItemsSource="{Binding DisconnectedCharacters}"
-                          DisplayMemberPath="CharacterName"/>
+                </Grid>
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0">
                         Relation:
@@ -56,7 +78,11 @@
                     <ComboBox Grid.Column="1" 
                               Margin="4"
                               ItemsSource="{Binding RelationTypes}"
-                              DisplayMemberPath="Name"></ComboBox>
+                              DisplayMemberPath="Name"
+                              SelectedItem="{Binding SelectedNewConnectionType}"></ComboBox>
+                    <Button Content="Connect character"
+                            Command="{Binding ConnectCharacterCommand}"
+                            Grid.Column="2"/>
                 </Grid>
 
             </Grid>
