@@ -118,7 +118,7 @@ public class CharacterController : Controller
                 {
                     Id = r.TargetCharacter.Id,
                     CharacterName = r.TargetCharacter.Name,
-                    RoleToCharacter = r.RelationType?.ToString()
+                    RoleToCharacter = r.RelationType?.Name ?? "unknown"
                 };
             }).ToArray()
         };
